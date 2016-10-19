@@ -5,7 +5,10 @@
  */
 package com.despairs.games.tetris.model;
 
-import java.awt.Polygon;
+import com.despairs.games.tetris.utils.AppConfig;
+import java.awt.Color;
+import java.awt.Rectangle;
+import java.awt.Shape;
 
 /**
  *
@@ -14,15 +17,19 @@ import java.awt.Polygon;
 public class SFigure extends BaseFigure {
 
     public SFigure() {
-        ((Polygon) figure).addPoint(AppConfig.START_POSITION, AppConfig.START_POSITION + AppConfig.BLOCK_SIZE);
-        ((Polygon) figure).addPoint(AppConfig.START_POSITION + AppConfig.BLOCK_SIZE, AppConfig.START_POSITION + AppConfig.BLOCK_SIZE);
-        ((Polygon) figure).addPoint(AppConfig.START_POSITION + AppConfig.BLOCK_SIZE, AppConfig.START_POSITION);
-        ((Polygon) figure).addPoint(AppConfig.START_POSITION + 3 * AppConfig.BLOCK_SIZE, AppConfig.START_POSITION);
-        ((Polygon) figure).addPoint(AppConfig.START_POSITION + 3 * AppConfig.BLOCK_SIZE, AppConfig.START_POSITION + AppConfig.BLOCK_SIZE);
-        ((Polygon) figure).addPoint(AppConfig.START_POSITION + 2 * AppConfig.BLOCK_SIZE, AppConfig.START_POSITION + AppConfig.BLOCK_SIZE);
-        ((Polygon) figure).addPoint(AppConfig.START_POSITION + 2 * AppConfig.BLOCK_SIZE, AppConfig.START_POSITION + 2 * AppConfig.BLOCK_SIZE);
-        ((Polygon) figure).addPoint(AppConfig.START_POSITION, AppConfig.START_POSITION + 2 * AppConfig.BLOCK_SIZE);
-        ((Polygon) figure).addPoint(AppConfig.START_POSITION, AppConfig.START_POSITION + AppConfig.BLOCK_SIZE);
+        figures.add(new Rectangle(AppConfig.START_POSITION - AppConfig.BLOCK_SIZE, AppConfig.BLOCK_SIZE, AppConfig.BLOCK_SIZE, AppConfig.BLOCK_SIZE));
+        figures.add(new Rectangle(AppConfig.START_POSITION, 0, AppConfig.BLOCK_SIZE, AppConfig.BLOCK_SIZE));
+        figures.add(new Rectangle(AppConfig.START_POSITION, AppConfig.BLOCK_SIZE, AppConfig.BLOCK_SIZE, AppConfig.BLOCK_SIZE));
+        figures.add(new Rectangle(AppConfig.START_POSITION + AppConfig.BLOCK_SIZE, 0, AppConfig.BLOCK_SIZE, AppConfig.BLOCK_SIZE));
     }
 
+    @Override
+    protected Shape getRotateFigure() {
+        return figures.get(1);
+    }
+
+    @Override
+    public Color getColor() {
+        return Color.WHITE;
+    }
 }

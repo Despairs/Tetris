@@ -5,7 +5,7 @@
  */
 package com.despairs.games.tetris.ui;
 
-import com.despairs.games.tetris.model.AppConfig;
+import com.despairs.games.tetris.utils.AppConfig;
 import com.despairs.games.tetris.model.Direction;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -19,8 +19,6 @@ import javax.swing.Timer;
  * @author EKovtunenko
  */
 public class GameFrame extends JFrame {
-
-    
 
     private final Timer timer;
     private GameBoard board;
@@ -91,7 +89,7 @@ public class GameFrame extends JFrame {
         timer = new Timer(1000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                board.move(Direction.DOWN);
+//                board.move(Direction.DOWN);
 //                statistic.move(Direction.DOWN);
                 repaint();
             }
@@ -107,21 +105,25 @@ public class GameFrame extends JFrame {
 
             @Override
             public void keyPressed(KeyEvent e) {
-                switch (e.getKeyCode()) {
-                    case KeyEvent.VK_UP:
-                        board.rotate();
-                        break;
-                    case KeyEvent.VK_DOWN:
-                        board.move(Direction.DOWN);
-                        break;
-                    case KeyEvent.VK_LEFT:
-                        board.move(Direction.LEFT);
-                        break;
-                    case KeyEvent.VK_RIGHT:
-                        board.move(Direction.RIGHT);
-                        break;
-                    case KeyEvent.VK_SPACE:
-                        break;
+                try {
+                    switch (e.getKeyCode()) {
+                        case KeyEvent.VK_UP:
+                            board.rotate();
+                            break;
+                        case KeyEvent.VK_DOWN:
+                            board.move(Direction.DOWN);
+                            break;
+                        case KeyEvent.VK_LEFT:
+                            board.move(Direction.LEFT);
+                            break;
+                        case KeyEvent.VK_RIGHT:
+                            board.move(Direction.RIGHT);
+                            break;
+                        case KeyEvent.VK_SPACE:
+                            break;
+                    }
+                } catch (CloneNotSupportedException ex) {
+
                 }
                 repaint();
             }

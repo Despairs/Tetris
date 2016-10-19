@@ -5,9 +5,12 @@
  */
 package com.despairs.games.tetris.utils;
 
-import java.awt.Rectangle;
+import com.despairs.games.tetris.model.BaseFigure;
+import java.awt.Point;
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -15,15 +18,31 @@ import java.awt.geom.AffineTransform;
  */
 public class Transforms {
 
-    public static Shape rotate(Shape shape, double angle) {
-        Rectangle bounds = shape.getBounds();
-        AffineTransform at = AffineTransform.getRotateInstance(angle, bounds.getX(), bounds.getY() + bounds.getHeight());
-        at.translate(-bounds.getHeight(), 0);
-        return at.createTransformedShape(shape);
+    public static BaseFigure rotate(BaseFigure figure, double angle) throws CloneNotSupportedException {
+        BaseFigure ret = figure;
+        if (figure.isRotateAllowed()) {
+            Point rotatePoint = figure.getRotatePoint();
+            List<Shape> l = new ArrayList<>();
+            for (Shape s : figure.getFigures()) {
+                AffineTransform at = AffineTransform.getRotateInstance(angle, rotatePoint.getX(), rotatePoint.getY());
+                at.translate(-s.getBounds().getHeight(), 0);
+                l.add(at.createTransformedShape(s));
+            }
+            ret.getFigures().clear();
+            ret.getFigures().addAll(l);
+        }
+        return ret;
     }
 
-    public static Shape translate(Shape shape, double x, double y) {
+    public static BaseFigure translate(BaseFigure figure, double x, double y) throws CloneNotSupportedException {
+        BaseFigure ret = figure;
         AffineTransform at = AffineTransform.getTranslateInstance(x, y);
-        return at.createTransformedShape(shape);
+        List<Shape> l = new ArrayList<>();
+        for (Shape s : figure.getFigures()) {
+            l.add(at.createTransformedShape(s));
+        }
+        ret.getFigures().clear();
+        ret.getFigures().addAll(l);
+        return ret;
     }
 }
