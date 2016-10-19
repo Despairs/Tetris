@@ -11,7 +11,6 @@ import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
 import java.util.List;
-import java.util.Objects;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
@@ -21,26 +20,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class BaseFigure implements Cloneable {
 
     protected List<Shape> figures = new CopyOnWriteArrayList<>();
-
-    public Point getRotatePoint() {
-        Rectangle bounds = getRotateFigure().getBounds();
-        Point point = new Point();
-        point.setLocation(bounds.getX(), bounds.getY() + bounds.getHeight());
-        return point;
-    }
-
-    protected Shape getRotateFigure() {
-        return figures.get(0);
-    }
-
-    public boolean isRotateAllowed() {
-        return true;
-    }
-
-    public Color getColor() {
-        return Color.BLACK;
-    }
-
+    
     public boolean intersects(BaseFigure target) {
         boolean ret = false;
         for (Shape s : figures) {
@@ -64,6 +44,25 @@ public class BaseFigure implements Cloneable {
             }
         }
         return ret;
+    }
+
+    public Point getRotatePoint() {
+        Rectangle bounds = getRotateFigure().getBounds();
+        Point point = new Point();
+        point.setLocation(bounds.getX(), bounds.getY() + bounds.getHeight());
+        return point;
+    }
+
+    protected Shape getRotateFigure() {
+        return figures.get(0);
+    }
+
+    public boolean isRotateAllowed() {
+        return true;
+    }
+
+    public Color getColor() {
+        return Color.BLACK;
     }
 
     public List<Shape> getFigures() {

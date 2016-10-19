@@ -36,13 +36,17 @@ public class Transforms {
 
     public static BaseFigure translate(BaseFigure figure, double x, double y) throws CloneNotSupportedException {
         BaseFigure ret = figure;
-        AffineTransform at = AffineTransform.getTranslateInstance(x, y);
         List<Shape> l = new ArrayList<>();
         for (Shape s : figure.getFigures()) {
-            l.add(at.createTransformedShape(s));
+            l.add(translate(s, x, y));
         }
         ret.getFigures().clear();
         ret.getFigures().addAll(l);
         return ret;
+    }
+
+    public static Shape translate(Shape figure, double x, double y) {
+        AffineTransform at = AffineTransform.getTranslateInstance(x, y);
+        return at.createTransformedShape(figure);
     }
 }

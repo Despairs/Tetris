@@ -13,8 +13,11 @@ import com.despairs.games.tetris.utils.Transforms;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.Shape;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
 import javax.swing.JPanel;
 
@@ -98,10 +101,40 @@ public class GameBoard extends JPanel {
         }
         if (createNewFigure) {
             figures.add(currentFigure);
+            currentFigure = FigureFactory.getRandomFigure();
+            deleteRow();
         }
     }
 
     public void rotate() throws CloneNotSupportedException {
         currentFigure = Transforms.rotate(currentFigure, Math.toRadians(90));
+    }
+
+    private void deleteRow() {
+        Map<Double, Double> board = new HashMap<>();
+        for (BaseFigure figure : figures) {
+            for (Shape s : figure.getFigures()) {
+                Rectangle bounds = s.getBounds();
+                Double width = board.get(bounds.getY());
+                if (width == null) {
+                    width = new Double(0);
+                }
+                board.put(bounds.getY(), width + bounds.getWidth());
+            }
+        }
+        for (Map.Entry<Double, Double> entrySet : board.entrySet()) {
+            if (entrySet.getValue().intValue() >= AppConfig.BOARD_WIDTH) {
+                for (BaseFigure figure : figures) {
+                    for (Shape s : figure.getFigures()) {
+                        if (s.getBounds().getY() == entrySet.getKey()) {
+                            figure.getFigures().remove(s);
+                        } else if (s.getBounds().getY() < entrySet.getKey()) {
+                            figure.getFigures().add(Transforms.translate(s, 0, AppConfig.BLOCK_SIZE));
+                            figure.getFigures().remove(s);
+                        }
+                    }
+                }
+            }
+        }
     }
 }
