@@ -14,13 +14,13 @@ import java.awt.Shape;
  *
  * @author EKovtunenko
  */
-public class LFigure extends BaseFigure {
+public class JFigure extends BaseFigure {
 
-    public LFigure() {
-        figures.add(new Rectangle(AppConfig.START_POSITION - AppConfig.BLOCK_SIZE, 0, AppConfig.BLOCK_SIZE, AppConfig.BLOCK_SIZE));
-        figures.add(new Rectangle(AppConfig.START_POSITION - AppConfig.BLOCK_SIZE, AppConfig.BLOCK_SIZE, AppConfig.BLOCK_SIZE, AppConfig.BLOCK_SIZE));
-        figures.add(new Rectangle(AppConfig.START_POSITION - AppConfig.BLOCK_SIZE, 2 * AppConfig.BLOCK_SIZE, AppConfig.BLOCK_SIZE, AppConfig.BLOCK_SIZE));
+    public JFigure() {
+        figures.add(new Rectangle(AppConfig.START_POSITION, 0, AppConfig.BLOCK_SIZE, AppConfig.BLOCK_SIZE));
+        figures.add(new Rectangle(AppConfig.START_POSITION, AppConfig.BLOCK_SIZE, AppConfig.BLOCK_SIZE, AppConfig.BLOCK_SIZE));
         figures.add(new Rectangle(AppConfig.START_POSITION, 2 * AppConfig.BLOCK_SIZE, AppConfig.BLOCK_SIZE, AppConfig.BLOCK_SIZE));
+        figures.add(new Rectangle(AppConfig.START_POSITION - AppConfig.BLOCK_SIZE, 2 * AppConfig.BLOCK_SIZE, AppConfig.BLOCK_SIZE, AppConfig.BLOCK_SIZE));
     }
 
     @Override
@@ -30,7 +30,6 @@ public class LFigure extends BaseFigure {
 
     @Override
     public Color getColor() {
-        return Color.GREEN;
+        return Color.MAGENTA;
     }
-
 }

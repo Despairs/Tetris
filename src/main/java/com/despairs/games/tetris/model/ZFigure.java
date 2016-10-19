@@ -8,28 +8,29 @@ package com.despairs.games.tetris.model;
 import com.despairs.games.tetris.utils.AppConfig;
 import java.awt.Color;
 import java.awt.Rectangle;
+import java.awt.Shape;
 
 /**
  *
  * @author EKovtunenko
  */
-public class OFigure extends BaseFigure {
+public class ZFigure extends BaseFigure {
 
-    public OFigure() {
+    public ZFigure() {
         figures.add(new Rectangle(AppConfig.START_POSITION - AppConfig.BLOCK_SIZE, 0, AppConfig.BLOCK_SIZE, AppConfig.BLOCK_SIZE));
         figures.add(new Rectangle(AppConfig.START_POSITION, 0, AppConfig.BLOCK_SIZE, AppConfig.BLOCK_SIZE));
-        figures.add(new Rectangle(AppConfig.START_POSITION - AppConfig.BLOCK_SIZE, AppConfig.BLOCK_SIZE, AppConfig.BLOCK_SIZE, AppConfig.BLOCK_SIZE));
         figures.add(new Rectangle(AppConfig.START_POSITION, AppConfig.BLOCK_SIZE, AppConfig.BLOCK_SIZE, AppConfig.BLOCK_SIZE));
+        figures.add(new Rectangle(AppConfig.START_POSITION + AppConfig.BLOCK_SIZE, AppConfig.BLOCK_SIZE, AppConfig.BLOCK_SIZE, AppConfig.BLOCK_SIZE));
     }
-
+    
     @Override
-    public boolean isRotateAllowed() {
-        return false;
+    protected Shape getRotateFigure() {
+        return figures.get(1);
     }
-
+    
     @Override
     public Color getColor() {
-        return Color.BLUE;
+        return Color.PINK;
     }
 
 }

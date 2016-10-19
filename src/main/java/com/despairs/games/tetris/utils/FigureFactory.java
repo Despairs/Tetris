@@ -7,11 +7,13 @@ package com.despairs.games.tetris.utils;
 
 import com.despairs.games.tetris.model.BaseFigure;
 import com.despairs.games.tetris.model.IFigure;
+import com.despairs.games.tetris.model.JFigure;
 import com.despairs.games.tetris.model.LFigure;
 import com.despairs.games.tetris.model.OFigure;
 import com.despairs.games.tetris.model.SFigure;
 import com.despairs.games.tetris.model.TFigure;
-import java.awt.Shape;
+import com.despairs.games.tetris.model.OFigure;
+import com.despairs.games.tetris.model.ZFigure;
 
 /**
  *
@@ -19,9 +21,9 @@ import java.awt.Shape;
  */
 public class FigureFactory {
 
-    public static Shape getRandomFigure() {
+    public static BaseFigure getRandomFigure() {
         BaseFigure figure = null;
-        int id = (int) (Math.random() * 4 + 1);
+        int id = (int) (Math.random() * 6 + 1);
         switch (id) {
             case 1:
                 figure = new IFigure();
@@ -38,7 +40,13 @@ public class FigureFactory {
             case 5:
                 figure = new TFigure();
                 break;
+            case 6:
+                figure = new ZFigure();
+                break;
+            case 7:
+                figure = new JFigure();
+                break;
         }
-        return figure.getFigure();
+        return figure;
     }
 }
