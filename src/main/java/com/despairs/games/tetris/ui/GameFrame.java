@@ -49,15 +49,15 @@ public class GameFrame extends JFrame {
         statisticLayout.setHorizontalGroup(
                 statisticLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(statisticLayout.createSequentialGroup()
-                        .addGap(33, 33, 33)
-                        //                        .addComponent(jLabel1)
-                        .addContainerGap(33, Short.MAX_VALUE))
+                        .addGap(50, 50, 50)
+                        .addComponent(statistic.getScoresLabel())
+                        .addContainerGap(100, Short.MAX_VALUE))
         );
         statisticLayout.setVerticalGroup(
                 statisticLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(statisticLayout.createSequentialGroup()
                         .addContainerGap()
-                        //                        .addComponent(jLabel1)
+                        .addComponent(statistic.getScoresLabel())
                         .addContainerGap(AppConfig.BOARD_HEIGHT, Short.MAX_VALUE))
         );
 
@@ -89,7 +89,7 @@ public class GameFrame extends JFrame {
         timer = new Timer(1000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-//                board.move(Direction.DOWN);
+                board.move(Direction.DOWN);
 //                statistic.move(Direction.DOWN);
                 repaint();
             }
