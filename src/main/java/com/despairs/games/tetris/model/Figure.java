@@ -9,6 +9,7 @@ import java.awt.Color;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Shape;
+import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -31,9 +32,7 @@ public abstract class Figure implements Cloneable {
         boolean ret = false;
         for (Shape s : units) {
             for (Shape t : target.getUnits()) {
-                Rectangle _s = s.getBounds();
-                Rectangle _t = t.getBounds();
-                if (_s.x <= (_t.x + _t.width) && (_s.x + _s.width) >= _t.x && _s.y <= (_t.y + _t.height) && (_s.y + _s.height) >= _t.y) {
+                if (s.getBounds().intersects(t.getBounds())) {
                     ret = true;
                     break;
                 }

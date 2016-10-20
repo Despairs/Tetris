@@ -74,7 +74,7 @@ public class GameBoard extends JPanel {
         }
         boolean blocked = false;
         boolean createNewFigure = false;
-//        currentFigure = Transforms.translate(currentFigure, x, y);
+        currentFigure = Transforms.translate(currentFigure, x, y);
         for (Figure f : figures) {
             if (currentFigure.intersects(f)) {
                 System.out.println("Figure");
@@ -84,11 +84,11 @@ public class GameBoard extends JPanel {
                 }
             }
         }
-        if (currentFigure.intersectsLine(AppConfig.BOARD_WIDTH, 0, AppConfig.BOARD_WIDTH, AppConfig.BOARD_HEIGHT) && direction.equals(Direction.RIGHT)) {
+        if (currentFigure.intersectsLine(AppConfig.BOARD_WIDTH + AppConfig.BLOCK_SIZE, 0, AppConfig.BOARD_WIDTH + AppConfig.BLOCK_SIZE, AppConfig.BOARD_HEIGHT) && direction.equals(Direction.RIGHT)) {
             System.out.println("Right border");
             blocked = true;
         }
-        if (currentFigure.intersectsLine(0, 0, 0, AppConfig.BOARD_HEIGHT) && direction.equals(Direction.LEFT)) {
+        if (currentFigure.intersectsLine(-AppConfig.BLOCK_SIZE, 0, -AppConfig.BLOCK_SIZE, AppConfig.BOARD_HEIGHT) && direction.equals(Direction.LEFT)) {
             System.out.println("Left border");
             blocked = true;
         }
@@ -96,8 +96,8 @@ public class GameBoard extends JPanel {
             System.out.println("Bottom border");
             createNewFigure = true;
         }
-        if (!blocked) {
-            currentFigure = Transforms.translate(currentFigure, x, y);
+        if (blocked) {
+            currentFigure = Transforms.translate(currentFigure, -x, -y);
         }
         if (createNewFigure) {
             figures.add(currentFigure);
@@ -107,20 +107,21 @@ public class GameBoard extends JPanel {
     }
 
     public void rotate() {
-        
+        currentFigure = Transforms.rotate(currentFigure, Math.toRadians(90));
         for (Figure f : figures) {
             if (currentFigure.intersects(f)) {
                 System.out.println("Rotate: Figure");
+                //Лайфхак
+                tripleRotate();
             }
         }
-        currentFigure = Transforms.rotate(currentFigure, Math.toRadians(90));
-        while (currentFigure.intersectsLine(AppConfig.BOARD_WIDTH + AppConfig.BLOCK_SIZE, 0, AppConfig.BOARD_WIDTH + AppConfig.BLOCK_SIZE, AppConfig.BOARD_HEIGHT)) {
+        if (currentFigure.intersectsLine(AppConfig.BOARD_WIDTH + AppConfig.BLOCK_SIZE, 0, AppConfig.BOARD_WIDTH + AppConfig.BLOCK_SIZE, AppConfig.BOARD_HEIGHT)) {
             System.out.println("Rotate: Right border");
-            currentFigure = Transforms.translate(currentFigure, -AppConfig.BLOCK_SIZE, 0);
+            tripleRotate();
         }
-        while (currentFigure.intersectsLine(-AppConfig.BLOCK_SIZE, 0, -AppConfig.BLOCK_SIZE, AppConfig.BOARD_HEIGHT)) {
+        if (currentFigure.intersectsLine(-AppConfig.BLOCK_SIZE, 0, -AppConfig.BLOCK_SIZE, AppConfig.BOARD_HEIGHT)) {
             System.out.println("Rotate: Left border");
-            currentFigure = Transforms.translate(currentFigure, AppConfig.BLOCK_SIZE, 0);
+            tripleRotate();
         }
 
     }
@@ -151,5 +152,11 @@ public class GameBoard extends JPanel {
                 }
             }
         }
+    }
+
+    private void tripleRotate() {
+        currentFigure = Transforms.rotate(currentFigure, Math.toRadians(90));
+        currentFigure = Transforms.rotate(currentFigure, Math.toRadians(90));
+        currentFigure = Transforms.rotate(currentFigure, Math.toRadians(90));
     }
 }

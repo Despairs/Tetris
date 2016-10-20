@@ -30,7 +30,7 @@ public class SFigure extends Figure {
 
     @Override
     public Color getColor() {
-        return Color.WHITE;
+        return Color.CYAN;
     }
 
     @Override
