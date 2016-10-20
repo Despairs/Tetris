@@ -105,25 +105,21 @@ public class GameFrame extends JFrame {
 
             @Override
             public void keyPressed(KeyEvent e) {
-                try {
-                    switch (e.getKeyCode()) {
-                        case KeyEvent.VK_UP:
-                            board.rotate();
-                            break;
-                        case KeyEvent.VK_DOWN:
-                            board.move(Direction.DOWN);
-                            break;
-                        case KeyEvent.VK_LEFT:
-                            board.move(Direction.LEFT);
-                            break;
-                        case KeyEvent.VK_RIGHT:
-                            board.move(Direction.RIGHT);
-                            break;
-                        case KeyEvent.VK_SPACE:
-                            break;
-                    }
-                } catch (CloneNotSupportedException ex) {
-
+                switch (e.getKeyCode()) {
+                    case KeyEvent.VK_UP:
+                        board.rotate();
+                        break;
+                    case KeyEvent.VK_DOWN:
+                        board.move(Direction.DOWN);
+                        break;
+                    case KeyEvent.VK_LEFT:
+                        board.move(Direction.LEFT);
+                        break;
+                    case KeyEvent.VK_RIGHT:
+                        board.move(Direction.RIGHT);
+                        break;
+                    case KeyEvent.VK_SPACE:
+                        break;
                 }
                 repaint();
             }

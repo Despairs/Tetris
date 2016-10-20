@@ -14,23 +14,28 @@ import java.awt.Shape;
  *
  * @author EKovtunenko
  */
-public class IFigure extends BaseFigure {
+public class IFigure extends Figure {
 
     public IFigure() {
-        figures.add(new Rectangle(AppConfig.START_POSITION, 0, AppConfig.BLOCK_SIZE, AppConfig.BLOCK_SIZE));
-        figures.add(new Rectangle(AppConfig.START_POSITION, AppConfig.BLOCK_SIZE, AppConfig.BLOCK_SIZE, AppConfig.BLOCK_SIZE));
-        figures.add(new Rectangle(AppConfig.START_POSITION, 2 * AppConfig.BLOCK_SIZE, AppConfig.BLOCK_SIZE, AppConfig.BLOCK_SIZE));
-        figures.add(new Rectangle(AppConfig.START_POSITION, 3 * AppConfig.BLOCK_SIZE, AppConfig.BLOCK_SIZE, AppConfig.BLOCK_SIZE));
+        units.add(new Rectangle(AppConfig.START_POSITION, 0, AppConfig.BLOCK_SIZE, AppConfig.BLOCK_SIZE));
+        units.add(new Rectangle(AppConfig.START_POSITION, AppConfig.BLOCK_SIZE, AppConfig.BLOCK_SIZE, AppConfig.BLOCK_SIZE));
+        units.add(new Rectangle(AppConfig.START_POSITION, 2 * AppConfig.BLOCK_SIZE, AppConfig.BLOCK_SIZE, AppConfig.BLOCK_SIZE));
+        units.add(new Rectangle(AppConfig.START_POSITION, 3 * AppConfig.BLOCK_SIZE, AppConfig.BLOCK_SIZE, AppConfig.BLOCK_SIZE));
     }
 
     @Override
     protected Shape getRotateFigure() {
-        return figures.get(1);
+        return units.get(1);
     }
 
     @Override
     public Color getColor() {
         return Color.YELLOW;
+    }
+
+    @Override
+    public boolean isRotateAllowed() {
+        return true;
     }
 
 }

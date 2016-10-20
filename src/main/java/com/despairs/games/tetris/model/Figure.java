@@ -17,15 +17,23 @@ import java.util.concurrent.CopyOnWriteArrayList;
  *
  * @author EKovtunenko
  */
-public class BaseFigure implements Cloneable {
+public abstract class Figure implements Cloneable {
 
-    protected List<Shape> figures = new CopyOnWriteArrayList<>();
-    
-    public boolean intersects(BaseFigure target) {
+    protected List<Shape> units = new CopyOnWriteArrayList<>();
+
+    protected abstract Shape getRotateFigure();
+
+    public abstract boolean isRotateAllowed();
+
+    public abstract Color getColor();
+
+    public boolean intersects(Figure target) {
         boolean ret = false;
-        for (Shape s : figures) {
-            for (Shape t : target.getFigures()) {
-                if (s.intersects(t.getBounds2D())) {
+        for (Shape s : units) {
+            for (Shape t : target.getUnits()) {
+                Rectangle _s = s.getBounds();
+                Rectangle _t = t.getBounds();
+                if (_s.x <= (_t.x + _t.width) && (_s.x + _s.width) >= _t.x && _s.y <= (_t.y + _t.height) && (_s.y + _s.height) >= _t.y) {
                     ret = true;
                     break;
                 }
@@ -36,7 +44,7 @@ public class BaseFigure implements Cloneable {
 
     public boolean intersectsLine(double x0, double y0, double x1, double y1) {
         boolean ret = false;
-        for (Shape s : figures) {
+        for (Shape s : units) {
             Rectangle2D bounds = s.getBounds2D();
             if (bounds.intersectsLine(x0, y0, x1, y1)) {
                 ret = true;
@@ -53,19 +61,8 @@ public class BaseFigure implements Cloneable {
         return point;
     }
 
-    protected Shape getRotateFigure() {
-        return figures.get(0);
+    public List<Shape> getUnits() {
+        return units;
     }
 
-    public boolean isRotateAllowed() {
-        return true;
-    }
-
-    public Color getColor() {
-        return Color.BLACK;
-    }
-
-    public List<Shape> getFigures() {
-        return figures;
-    }
 }

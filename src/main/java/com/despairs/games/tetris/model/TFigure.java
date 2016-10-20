@@ -14,22 +14,27 @@ import java.awt.Shape;
  *
  * @author EKovtunenko
  */
-public class TFigure extends BaseFigure {
+public class TFigure extends Figure {
 
     public TFigure() {
-        figures.add(new Rectangle(AppConfig.START_POSITION, 0, AppConfig.BLOCK_SIZE, AppConfig.BLOCK_SIZE));
-        figures.add(new Rectangle(AppConfig.START_POSITION - AppConfig.BLOCK_SIZE, AppConfig.BLOCK_SIZE, AppConfig.BLOCK_SIZE, AppConfig.BLOCK_SIZE));
-        figures.add(new Rectangle(AppConfig.START_POSITION, AppConfig.BLOCK_SIZE, AppConfig.BLOCK_SIZE, AppConfig.BLOCK_SIZE));
-        figures.add(new Rectangle(AppConfig.START_POSITION + AppConfig.BLOCK_SIZE, AppConfig.BLOCK_SIZE, AppConfig.BLOCK_SIZE, AppConfig.BLOCK_SIZE));
+        units.add(new Rectangle(AppConfig.START_POSITION, 0, AppConfig.BLOCK_SIZE, AppConfig.BLOCK_SIZE));
+        units.add(new Rectangle(AppConfig.START_POSITION - AppConfig.BLOCK_SIZE, AppConfig.BLOCK_SIZE, AppConfig.BLOCK_SIZE, AppConfig.BLOCK_SIZE));
+        units.add(new Rectangle(AppConfig.START_POSITION, AppConfig.BLOCK_SIZE, AppConfig.BLOCK_SIZE, AppConfig.BLOCK_SIZE));
+        units.add(new Rectangle(AppConfig.START_POSITION + AppConfig.BLOCK_SIZE, AppConfig.BLOCK_SIZE, AppConfig.BLOCK_SIZE, AppConfig.BLOCK_SIZE));
     }
 
     @Override
     protected Shape getRotateFigure() {
-        return figures.get(2);
+        return units.get(2);
     }
 
     @Override
     public Color getColor() {
         return Color.ORANGE;
+    }
+
+    @Override
+    public boolean isRotateAllowed() {
+        return true;
     }
 }

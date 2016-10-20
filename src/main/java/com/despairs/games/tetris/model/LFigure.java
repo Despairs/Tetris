@@ -14,18 +14,18 @@ import java.awt.Shape;
  *
  * @author EKovtunenko
  */
-public class LFigure extends BaseFigure {
+public class LFigure extends Figure {
 
     public LFigure() {
-        figures.add(new Rectangle(AppConfig.START_POSITION - AppConfig.BLOCK_SIZE, 0, AppConfig.BLOCK_SIZE, AppConfig.BLOCK_SIZE));
-        figures.add(new Rectangle(AppConfig.START_POSITION - AppConfig.BLOCK_SIZE, AppConfig.BLOCK_SIZE, AppConfig.BLOCK_SIZE, AppConfig.BLOCK_SIZE));
-        figures.add(new Rectangle(AppConfig.START_POSITION - AppConfig.BLOCK_SIZE, 2 * AppConfig.BLOCK_SIZE, AppConfig.BLOCK_SIZE, AppConfig.BLOCK_SIZE));
-        figures.add(new Rectangle(AppConfig.START_POSITION, 2 * AppConfig.BLOCK_SIZE, AppConfig.BLOCK_SIZE, AppConfig.BLOCK_SIZE));
+        units.add(new Rectangle(AppConfig.START_POSITION - AppConfig.BLOCK_SIZE, 0, AppConfig.BLOCK_SIZE, AppConfig.BLOCK_SIZE));
+        units.add(new Rectangle(AppConfig.START_POSITION - AppConfig.BLOCK_SIZE, AppConfig.BLOCK_SIZE, AppConfig.BLOCK_SIZE, AppConfig.BLOCK_SIZE));
+        units.add(new Rectangle(AppConfig.START_POSITION - AppConfig.BLOCK_SIZE, 2 * AppConfig.BLOCK_SIZE, AppConfig.BLOCK_SIZE, AppConfig.BLOCK_SIZE));
+        units.add(new Rectangle(AppConfig.START_POSITION, 2 * AppConfig.BLOCK_SIZE, AppConfig.BLOCK_SIZE, AppConfig.BLOCK_SIZE));
     }
 
     @Override
     protected Shape getRotateFigure() {
-        return figures.get(1);
+        return units.get(1);
     }
 
     @Override
@@ -33,4 +33,8 @@ public class LFigure extends BaseFigure {
         return Color.GREEN;
     }
 
+    @Override
+    public boolean isRotateAllowed() {
+        return true;
+    }
 }

@@ -5,7 +5,7 @@
  */
 package com.despairs.games.tetris.utils;
 
-import com.despairs.games.tetris.model.BaseFigure;
+import com.despairs.games.tetris.model.Figure;
 import java.awt.Point;
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
@@ -18,30 +18,30 @@ import java.util.List;
  */
 public class Transforms {
 
-    public static BaseFigure rotate(BaseFigure figure, double angle) throws CloneNotSupportedException {
-        BaseFigure ret = figure;
+    public static Figure rotate(Figure figure, double angle) {
+        Figure ret = figure;
         if (figure.isRotateAllowed()) {
             Point rotatePoint = figure.getRotatePoint();
             List<Shape> l = new ArrayList<>();
-            for (Shape s : figure.getFigures()) {
+            for (Shape s : figure.getUnits()) {
                 AffineTransform at = AffineTransform.getRotateInstance(angle, rotatePoint.getX(), rotatePoint.getY());
                 at.translate(-s.getBounds().getHeight(), 0);
                 l.add(at.createTransformedShape(s));
             }
-            ret.getFigures().clear();
-            ret.getFigures().addAll(l);
+            ret.getUnits().clear();
+            ret.getUnits().addAll(l);
         }
         return ret;
     }
 
-    public static BaseFigure translate(BaseFigure figure, double x, double y) throws CloneNotSupportedException {
-        BaseFigure ret = figure;
+    public static Figure translate(Figure figure, double x, double y) {
+        Figure ret = figure;
         List<Shape> l = new ArrayList<>();
-        for (Shape s : figure.getFigures()) {
+        for (Shape s : figure.getUnits()) {
             l.add(translate(s, x, y));
         }
-        ret.getFigures().clear();
-        ret.getFigures().addAll(l);
+        ret.getUnits().clear();
+        ret.getUnits().addAll(l);
         return ret;
     }
 

@@ -5,7 +5,7 @@
  */
 package com.despairs.games.tetris.ui;
 
-import com.despairs.games.tetris.model.BaseFigure;
+import com.despairs.games.tetris.model.Figure;
 import com.despairs.games.tetris.utils.AppConfig;
 import com.despairs.games.tetris.model.Direction;
 import com.despairs.games.tetris.utils.FigureFactory;
@@ -27,9 +27,9 @@ import javax.swing.JPanel;
  */
 public class GameBoard extends JPanel {
 
-    private BaseFigure currentFigure;
+    private Figure currentFigure;
 
-    private final List<BaseFigure> figures;
+    private final List<Figure> figures;
 
     public GameBoard() {
         if (currentFigure == null) {
@@ -41,15 +41,15 @@ public class GameBoard extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
-        for (Shape s : currentFigure.getFigures()) {
+        for (Shape s : currentFigure.getUnits()) {
             g2d.setColor(currentFigure.getColor());
             g2d.fill(s);
             g2d.setColor(Color.BLACK);
             g2d.draw(s);
 
         }
-        for (BaseFigure figure : figures) {
-            for (Shape s : figure.getFigures()) {
+        for (Figure figure : figures) {
+            for (Shape s : figure.getUnits()) {
                 g2d.setColor(figure.getColor());
                 g2d.fill(s);
                 g2d.setColor(Color.BLACK);
@@ -58,7 +58,7 @@ public class GameBoard extends JPanel {
         }
     }
 
-    public void move(Direction direction) throws CloneNotSupportedException {
+    public void move(Direction direction) {
         double x = 0;
         double y = 0;
         switch (direction) {
@@ -74,8 +74,8 @@ public class GameBoard extends JPanel {
         }
         boolean blocked = false;
         boolean createNewFigure = false;
-        currentFigure = Transforms.translate(currentFigure, x, y);
-        for (BaseFigure f : figures) {
+//        currentFigure = Transforms.translate(currentFigure, x, y);
+        for (Figure f : figures) {
             if (currentFigure.intersects(f)) {
                 System.out.println("Figure");
                 blocked = true;
@@ -84,11 +84,11 @@ public class GameBoard extends JPanel {
                 }
             }
         }
-        if (currentFigure.intersectsLine(AppConfig.BOARD_WIDTH + AppConfig.BLOCK_SIZE, 0, AppConfig.BOARD_WIDTH + AppConfig.BLOCK_SIZE, AppConfig.BOARD_HEIGHT) && direction.equals(Direction.RIGHT)) {
+        if (currentFigure.intersectsLine(AppConfig.BOARD_WIDTH, 0, AppConfig.BOARD_WIDTH, AppConfig.BOARD_HEIGHT) && direction.equals(Direction.RIGHT)) {
             System.out.println("Right border");
             blocked = true;
         }
-        if (currentFigure.intersectsLine(-AppConfig.BLOCK_SIZE, 0, -AppConfig.BLOCK_SIZE, AppConfig.BOARD_HEIGHT) && direction.equals(Direction.LEFT)) {
+        if (currentFigure.intersectsLine(0, 0, 0, AppConfig.BOARD_HEIGHT) && direction.equals(Direction.LEFT)) {
             System.out.println("Left border");
             blocked = true;
         }
@@ -96,8 +96,8 @@ public class GameBoard extends JPanel {
             System.out.println("Bottom border");
             createNewFigure = true;
         }
-        if (blocked) {
-            currentFigure = Transforms.translate(currentFigure, -x, -y);
+        if (!blocked) {
+            currentFigure = Transforms.translate(currentFigure, x, y);
         }
         if (createNewFigure) {
             figures.add(currentFigure);
@@ -106,14 +106,29 @@ public class GameBoard extends JPanel {
         }
     }
 
-    public void rotate() throws CloneNotSupportedException {
+    public void rotate() {
+        
+        for (Figure f : figures) {
+            if (currentFigure.intersects(f)) {
+                System.out.println("Rotate: Figure");
+            }
+        }
         currentFigure = Transforms.rotate(currentFigure, Math.toRadians(90));
+        while (currentFigure.intersectsLine(AppConfig.BOARD_WIDTH + AppConfig.BLOCK_SIZE, 0, AppConfig.BOARD_WIDTH + AppConfig.BLOCK_SIZE, AppConfig.BOARD_HEIGHT)) {
+            System.out.println("Rotate: Right border");
+            currentFigure = Transforms.translate(currentFigure, -AppConfig.BLOCK_SIZE, 0);
+        }
+        while (currentFigure.intersectsLine(-AppConfig.BLOCK_SIZE, 0, -AppConfig.BLOCK_SIZE, AppConfig.BOARD_HEIGHT)) {
+            System.out.println("Rotate: Left border");
+            currentFigure = Transforms.translate(currentFigure, AppConfig.BLOCK_SIZE, 0);
+        }
+
     }
 
     private void deleteRow() {
         Map<Double, Double> board = new HashMap<>();
-        for (BaseFigure figure : figures) {
-            for (Shape s : figure.getFigures()) {
+        for (Figure figure : figures) {
+            for (Shape s : figure.getUnits()) {
                 Rectangle bounds = s.getBounds();
                 Double width = board.get(bounds.getY());
                 if (width == null) {
@@ -124,13 +139,13 @@ public class GameBoard extends JPanel {
         }
         for (Map.Entry<Double, Double> entrySet : board.entrySet()) {
             if (entrySet.getValue().intValue() >= AppConfig.BOARD_WIDTH) {
-                for (BaseFigure figure : figures) {
-                    for (Shape s : figure.getFigures()) {
+                for (Figure figure : figures) {
+                    for (Shape s : figure.getUnits()) {
                         if (s.getBounds().getY() == entrySet.getKey()) {
-                            figure.getFigures().remove(s);
+                            figure.getUnits().remove(s);
                         } else if (s.getBounds().getY() < entrySet.getKey()) {
-                            figure.getFigures().add(Transforms.translate(s, 0, AppConfig.BLOCK_SIZE));
-                            figure.getFigures().remove(s);
+                            figure.getUnits().add(Transforms.translate(s, 0, AppConfig.BLOCK_SIZE));
+                            figure.getUnits().remove(s);
                         }
                     }
                 }

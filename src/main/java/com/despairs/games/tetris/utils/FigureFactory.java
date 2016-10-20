@@ -5,7 +5,7 @@
  */
 package com.despairs.games.tetris.utils;
 
-import com.despairs.games.tetris.model.BaseFigure;
+import com.despairs.games.tetris.model.Figure;
 import com.despairs.games.tetris.model.IFigure;
 import com.despairs.games.tetris.model.JFigure;
 import com.despairs.games.tetris.model.LFigure;
@@ -21,8 +21,8 @@ import com.despairs.games.tetris.model.ZFigure;
  */
 public class FigureFactory {
 
-    public static BaseFigure getRandomFigure() {
-        BaseFigure figure = null;
+    public static Figure getRandomFigure() {
+        Figure figure = null;
         int id = (int) (Math.random() * 6 + 1);
         switch (id) {
             case 1:
