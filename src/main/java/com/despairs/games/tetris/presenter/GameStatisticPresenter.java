@@ -6,11 +6,11 @@
 package com.despairs.games.tetris.presenter;
 
 import com.despairs.games.tetris.model.Figure;
-import com.despairs.games.tetris.utils.GameStatisticView;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Shape;
+import com.despairs.games.tetris.view.GameView;
 
 /**
  *
@@ -19,9 +19,9 @@ import java.awt.Shape;
 public class GameStatisticPresenter {
 
     private Figure nextFigure;
-    private final GameStatisticView view;
+    private final GameView view;
     
-    public GameStatisticPresenter(GameStatisticView view) {
+    public GameStatisticPresenter(GameView view) {
         this.view = view;
     }
 
