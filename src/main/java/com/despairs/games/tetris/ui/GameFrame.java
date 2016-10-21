@@ -65,61 +65,8 @@ public class GameFrame extends JFrame implements GameView, KeyListener, ActionLi
         
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-//        setPreferredSize(new Dimension(AppConfig.FRAME_WIDTH, AppConfig.FRAME_HEIGHT));
-//        setResizable(false);
         getContentPane().add(board, BorderLayout.CENTER);
         getContentPane().add(statistic, BorderLayout.AFTER_LINE_ENDS);
-        
-//        javax.swing.GroupLayout boardLayout = new javax.swing.GroupLayout(board);
-//        BorderLayout boardLayout = new BorderLayout();
-//        board.setLayout(boardLayout);
-//        boardLayout.setHorizontalGroup(
-//                boardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-//                .addGap(0, AppConfig.BOARD_WIDTH, Short.MAX_VALUE)
-//        );
-//        boardLayout.setVerticalGroup(
-//                boardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-//                .addGap(0, 0, Short.MAX_VALUE)
-//        );
-   
-//        javax.swing.GroupLayout statisticLayout = new javax.swing.GroupLayout(statistic);
-//        statistic.setLayout(statisticLayout);
-//        statisticLayout.setHorizontalGroup(
-//                statisticLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-//                .addGroup(statisticLayout.createSequentialGroup()
-//                        .addGap(50, 50, 50)
-//                        .addComponent(scores)
-//                        .addContainerGap(100, Short.MAX_VALUE))
-//        );
-//        statisticLayout.setVerticalGroup(
-//                statisticLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-//                .addGroup(statisticLayout.createSequentialGroup()
-//                        .addContainerGap()
-//                        .addComponent(scores)
-//                        .addContainerGap(AppConfig.BOARD_HEIGHT, Short.MAX_VALUE))
-//        );
-//
-//        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-//        getContentPane().setLayout(layout);
-//        layout.setHorizontalGroup(
-//                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-//                .addGroup(layout.createSequentialGroup()
-//                        .addContainerGap()
-//                        .addComponent(board, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-//                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-//                        .addComponent(statistic, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-//                        .addContainerGap())
-//        );
-//        layout.setVerticalGroup(
-//                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-//                .addGroup(layout.createSequentialGroup()
-//                        .addContainerGap()
-//                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-//                                .addComponent(board, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-//                                .addComponent(statistic, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-//                        .addContainerGap())
-//        );
-
         pack();
     }
 
