@@ -14,8 +14,15 @@ public class AppConfig {
     public static final int BLOCK_SIZE = 30;
     public static final int BORDER_SIZE = 1;
 
-    public static final int BOARD_WIDTH = 15 * AppConfig.BLOCK_SIZE - 2 * BORDER_SIZE;
-    public static final int BOARD_HEIGHT = 30 * AppConfig.BLOCK_SIZE - 2 * BORDER_SIZE;
+    public static final int BOARD_WIDTH = 15 * AppConfig.BLOCK_SIZE;
+    public static final int BOARD_HEIGHT = 20 * AppConfig.BLOCK_SIZE;
+
+    public static final int STATISTIC_HEIGHT = BOARD_HEIGHT;
+    public static final int STATISTIC_WIDTH = 5 * AppConfig.BLOCK_SIZE;
+    
+    public static final int FRAME_WIDTH = BOARD_WIDTH + STATISTIC_WIDTH;
+    public static final int FRAME_HEIGHT = BOARD_HEIGHT;
+
     public static final int START_POSITION = ((BOARD_WIDTH / BLOCK_SIZE) / 2) * AppConfig.BLOCK_SIZE;
     public static final int HALF_BLOCK_SIZE = BLOCK_SIZE / 2;
 

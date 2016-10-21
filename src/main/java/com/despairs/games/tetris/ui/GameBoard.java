@@ -5,8 +5,7 @@
  */
 package com.despairs.games.tetris.ui;
 
-import com.despairs.games.tetris.model.Direction;
-import com.despairs.games.tetris.presenter.GameBoardPresenter;
+import com.despairs.games.tetris.presenter.GamePresenter;
 import java.awt.Graphics;
 import javax.swing.JPanel;
 
@@ -16,22 +15,14 @@ import javax.swing.JPanel;
  */
 public class GameBoard extends JPanel {
 
-    private final GameBoardPresenter presenter;
-
-    public GameBoard() {
-        this.presenter = new GameBoardPresenter();
+    private final GamePresenter presenter;
+    
+    public GameBoard(GamePresenter presenter) {
+        this.presenter = presenter;
     }
-
+    
     @Override
     public void paintComponent(Graphics g) {
-        presenter.onPaintComponent(g);
-    }
-
-    public void move(Direction direction) {
-        presenter.onMove(direction);
-    }
-
-    public void rotate() {
-        presenter.onRotate();
+        presenter.onPaintBoardComponent(g);
     }
 }
