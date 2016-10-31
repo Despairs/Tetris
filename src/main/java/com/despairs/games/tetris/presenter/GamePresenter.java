@@ -5,8 +5,6 @@
  */
 package com.despairs.games.tetris.presenter;
 
-import com.despairs.games.tetris.event.EventManager;
-import com.despairs.games.tetris.event.EventType;
 import com.despairs.games.tetris.model.Direction;
 import com.despairs.games.tetris.model.Figure;
 import com.despairs.games.tetris.utils.AppConfig;
@@ -47,12 +45,14 @@ public class GamePresenter {
 
     public void onPaintBoardComponent(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
-        for (Shape s : currentFigure.getUnits()) {
-            g2d.setColor(currentFigure.getColor());
-            g2d.fill(s);
-            g2d.setColor(Color.BLACK);
-            g2d.draw(s);
+        if (currentFigure != null) {
+            for (Shape s : currentFigure.getUnits()) {
+                g2d.setColor(currentFigure.getColor());
+                g2d.fill(s);
+                g2d.setColor(Color.BLACK);
+                g2d.draw(s);
 
+            }
         }
         for (Figure figure : figures) {
             for (Shape s : figure.getUnits()) {
@@ -83,6 +83,11 @@ public class GamePresenter {
         }
     }
 
+    public void onStartNewGame() {
+        currentFigure = null;
+        figures.clear();
+    }
+
     public void onMove(Direction direction) {
         double x = 0;
         double y = 0;
@@ -97,36 +102,43 @@ public class GamePresenter {
                 x = AppConfig.BLOCK_SIZE;
                 break;
         }
-        boolean blocked = false;
+        boolean isBlocked = false;
         boolean createNewFigure = false;
+        boolean isGameOver = false;
         currentFigure = Transforms.translate(currentFigure, x, y);
         for (Figure f : figures) {
             if (currentFigure.intersects(f)) {
                 System.out.println("Figure");
-                blocked = true;
-                if (direction.equals(Direction.DOWN)) {
+                isBlocked = true;
+                if (currentFigure.intersectsLine(0, AppConfig.BLOCK_SIZE, AppConfig.BOARD_WIDTH, AppConfig.BLOCK_SIZE)) {
+                    System.out.println("Game over");
+                    isGameOver = true;
+                } else if (direction.equals(Direction.DOWN)) {
                     createNewFigure = true;
                 }
             }
         }
         if (currentFigure.intersectsLine(AppConfig.BOARD_WIDTH + AppConfig.BLOCK_SIZE, 0, AppConfig.BOARD_WIDTH + AppConfig.BLOCK_SIZE, AppConfig.BOARD_HEIGHT) && direction.equals(Direction.RIGHT)) {
             System.out.println("Right border");
-            blocked = true;
+            isBlocked = true;
         }
         if (currentFigure.intersectsLine(-AppConfig.BLOCK_SIZE, 0, -AppConfig.BLOCK_SIZE, AppConfig.BOARD_HEIGHT) && direction.equals(Direction.LEFT)) {
             System.out.println("Left border");
-            blocked = true;
+            isBlocked = true;
         }
         if (currentFigure.intersectsLine(0, AppConfig.BOARD_HEIGHT + AppConfig.BLOCK_SIZE, AppConfig.BOARD_WIDTH, AppConfig.BOARD_HEIGHT + AppConfig.BLOCK_SIZE) && direction.equals(Direction.DOWN)) {
             System.out.println("Bottom border");
             createNewFigure = true;
-            blocked = true;
+            isBlocked = true;
         }
-        if (blocked) {
+        if (isGameOver) {
+            view.stopGame();
+        }
+        if (isBlocked) {
             currentFigure = Transforms.translate(currentFigure, -x, -y);
         }
         if (createNewFigure) {
-            increaseScore(10L);
+            increaseScore(AppConfig.FIGURE_COST);
             figures.add(currentFigure);
             currentFigure = FigureFactory.getRandomFigure();
             view.setScore(score);
@@ -181,7 +193,7 @@ public class GamePresenter {
                         }
                     }
                 }
-                increaseScore(100L);
+                increaseScore(AppConfig.ROW_COST);
             }
         }
     }

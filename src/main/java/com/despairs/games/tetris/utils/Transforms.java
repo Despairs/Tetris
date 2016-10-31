@@ -36,12 +36,14 @@ public class Transforms {
 
     public static Figure translate(Figure figure, double x, double y) {
         Figure ret = figure;
-        List<Shape> l = new ArrayList<>();
-        for (Shape s : figure.getUnits()) {
-            l.add(translate(s, x, y));
+        if (figure != null) {
+            List<Shape> l = new ArrayList<>();
+            for (Shape s : figure.getUnits()) {
+                l.add(translate(s, x, y));
+            }
+            ret.getUnits().clear();
+            ret.getUnits().addAll(l);
         }
-        ret.getUnits().clear();
-        ret.getUnits().addAll(l);
         return ret;
     }
 

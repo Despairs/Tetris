@@ -11,4 +11,6 @@ package com.despairs.games.tetris.view;
  */
 public interface GameView {
     void setScore(Long score);
+    
+    void stopGame();
 }

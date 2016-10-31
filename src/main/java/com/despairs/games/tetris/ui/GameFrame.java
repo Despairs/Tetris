@@ -19,6 +19,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -30,6 +31,10 @@ public class GameFrame extends JFrame implements GameView, KeyListener, ActionLi
     private GameBoard board;
     private GameStatistic statistic;
     private JLabel scores;
+    private JLabel help;
+
+    private boolean inited = false;
+    private boolean isGameOver = false;
 
     private GamePresenter presenter;
 
@@ -38,11 +43,14 @@ public class GameFrame extends JFrame implements GameView, KeyListener, ActionLi
         initUI();
         setVisible(true);
         timer.start();
+        inited = true;
     }
 
     private void initEngine() {
-        timer = new Timer(1000, this);
-        addKeyListener(this);
+        if (!inited) {
+            addKeyListener(this);
+        }
+        timer = new Timer(500, this);
         presenter = new GamePresenter(this);
     }
 
@@ -54,16 +62,26 @@ public class GameFrame extends JFrame implements GameView, KeyListener, ActionLi
     public void initUI() {
         board = new GameBoard(presenter);
         statistic = new GameStatistic(presenter);
-        scores = new JLabel();
+        if (!inited) {
+            scores = new JLabel();
+            help = new JLabel(AppConfig.HELP);
+        }
+
+        help.setHorizontalAlignment(JLabel.LEFT);
+        help.setHorizontalTextPosition(JLabel.LEFT);
 
         board.setPreferredSize(new Dimension(AppConfig.BOARD_WIDTH, AppConfig.BOARD_HEIGHT));
         board.setBorder(javax.swing.BorderFactory.createLineBorder(Color.BLACK, AppConfig.BORDER_SIZE));
-               
+
         statistic.setPreferredSize(new Dimension(AppConfig.STATISTIC_WIDTH, AppConfig.STATISTIC_HEIGHT));
         statistic.setBorder(javax.swing.BorderFactory.createLineBorder(Color.BLACK, AppConfig.BORDER_SIZE));
+        statistic.setLayout(new javax.swing.BoxLayout(statistic, javax.swing.BoxLayout.Y_AXIS));
+
         statistic.add(scores);
-        
+        statistic.add(help);
+
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setResizable(false);
 
         getContentPane().add(board, BorderLayout.CENTER);
         getContentPane().add(statistic, BorderLayout.AFTER_LINE_ENDS);
@@ -76,21 +94,25 @@ public class GameFrame extends JFrame implements GameView, KeyListener, ActionLi
 
     @Override
     public void keyPressed(KeyEvent e) {
-        switch (e.getKeyCode()) {
-            case KeyEvent.VK_UP:
-                presenter.onRotate();
-                break;
-            case KeyEvent.VK_DOWN:
-                presenter.onMove(Direction.DOWN);
-                break;
-            case KeyEvent.VK_LEFT:
-                presenter.onMove(Direction.LEFT);
-                break;
-            case KeyEvent.VK_RIGHT:
-                presenter.onMove(Direction.RIGHT);
-                break;
-            case KeyEvent.VK_SPACE:
-                break;
+        if (!isGameOver || e.getKeyCode() == KeyEvent.VK_SPACE) {
+            switch (e.getKeyCode()) {
+                case KeyEvent.VK_UP:
+                    presenter.onRotate();
+                    break;
+                case KeyEvent.VK_DOWN:
+                    presenter.onMove(Direction.DOWN);
+                    break;
+                case KeyEvent.VK_LEFT:
+                    presenter.onMove(Direction.LEFT);
+                    break;
+                case KeyEvent.VK_RIGHT:
+                    presenter.onMove(Direction.RIGHT);
+                    break;
+                case KeyEvent.VK_SPACE:
+                    presenter.onStartNewGame();
+                    startNewGame();
+                    break;
+            }
         }
         repaint();
     }
@@ -103,5 +125,28 @@ public class GameFrame extends JFrame implements GameView, KeyListener, ActionLi
     public void actionPerformed(ActionEvent e) {
         presenter.onMove(Direction.DOWN);
         repaint();
+    }
+
+    private void startNewGame() {
+        isGameOver = false;
+        timer.stop();
+        timer = null;
+        setScore(0L);
+        start();
+    }
+
+    @Override
+    public void stopGame() {
+        isGameOver = true;
+        timer.stop();
+        int dialogOption = JOptionPane.showConfirmDialog(
+                this,
+                "Игра завершена\nЖелаете начать снова?",
+                null,               
+                JOptionPane.YES_NO_OPTION);
+        if (dialogOption == JOptionPane.OK_OPTION) {
+            presenter.onStartNewGame();
+            startNewGame();
+        }
     }
 }
