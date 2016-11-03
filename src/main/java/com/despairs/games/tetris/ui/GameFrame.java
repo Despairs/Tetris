@@ -18,6 +18,8 @@ import com.despairs.games.tetris.view.GameView;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
@@ -25,7 +27,7 @@ import javax.swing.JOptionPane;
  *
  * @author EKovtunenko
  */
-public class GameFrame extends JFrame implements GameView, KeyListener, ActionListener {
+public class GameFrame extends JFrame implements GameView, KeyListener, ActionListener, MouseListener {
 
     private Timer timer;
     private GameBoard board;
@@ -35,6 +37,7 @@ public class GameFrame extends JFrame implements GameView, KeyListener, ActionLi
 
     private boolean inited = false;
     private boolean isGameOver = false;
+    private boolean isGamePaused = false;
 
     private GamePresenter presenter;
 
@@ -42,13 +45,14 @@ public class GameFrame extends JFrame implements GameView, KeyListener, ActionLi
         initEngine();
         initUI();
         setVisible(true);
-        timer.start();
+        startTimer();
         inited = true;
     }
 
     private void initEngine() {
         if (!inited) {
             addKeyListener(this);
+            addMouseListener(this);
         }
         timer = new Timer(500, this);
         presenter = new GamePresenter(this);
@@ -94,8 +98,16 @@ public class GameFrame extends JFrame implements GameView, KeyListener, ActionLi
 
     @Override
     public void keyPressed(KeyEvent e) {
-        if (!isGameOver || e.getKeyCode() == KeyEvent.VK_SPACE) {
+        if ((!isGamePaused || e.getKeyCode() == KeyEvent.VK_P) && (!isGameOver || e.getKeyCode() == KeyEvent.VK_SPACE)) {
             switch (e.getKeyCode()) {
+                case KeyEvent.VK_P:
+                    if (!isGamePaused) {
+                        stopTimer();
+                    } else {
+                        startTimer();
+                    }
+                    isGamePaused = !isGamePaused;
+                    break;
                 case KeyEvent.VK_UP:
                     presenter.onRotate();
                     break;
@@ -127,9 +139,17 @@ public class GameFrame extends JFrame implements GameView, KeyListener, ActionLi
         repaint();
     }
 
+    private void stopTimer() {
+        timer.stop();
+    }
+
+    private void startTimer() {
+        timer.start();
+    }
+
     private void startNewGame() {
         isGameOver = false;
-        timer.stop();
+        stopTimer();
         timer = null;
         setScore(0L);
         start();
@@ -142,11 +162,33 @@ public class GameFrame extends JFrame implements GameView, KeyListener, ActionLi
         int dialogOption = JOptionPane.showConfirmDialog(
                 this,
                 "Игра завершена\nЖелаете начать снова?",
-                null,               
+                null,
                 JOptionPane.YES_NO_OPTION);
         if (dialogOption == JOptionPane.OK_OPTION) {
             presenter.onStartNewGame();
             startNewGame();
         }
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+       presenter.onRotate();
+       repaint();
+    }
+    
+    @Override
+    public void mouseClicked(MouseEvent e) { 
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {   
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {     
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {      
     }
 }

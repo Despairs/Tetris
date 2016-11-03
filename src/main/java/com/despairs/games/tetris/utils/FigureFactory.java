@@ -9,7 +9,6 @@ import com.despairs.games.tetris.model.Figure;
 import com.despairs.games.tetris.model.IFigure;
 import com.despairs.games.tetris.model.JFigure;
 import com.despairs.games.tetris.model.LFigure;
-import com.despairs.games.tetris.model.OFigure;
 import com.despairs.games.tetris.model.SFigure;
 import com.despairs.games.tetris.model.TFigure;
 import com.despairs.games.tetris.model.OFigure;

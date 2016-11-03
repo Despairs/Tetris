@@ -32,6 +32,7 @@ public class AppConfig {
     public static final String HELP = "<html>"
             + "<hr/>Справка:<hr/>"
             + "Вверх - повернуть<br/>"
+            + "P - пауза<br/>"
             + "Пробел - новая игра<br/>"
             + "</html>";
 }
