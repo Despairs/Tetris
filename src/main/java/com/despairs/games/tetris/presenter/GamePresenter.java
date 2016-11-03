@@ -45,6 +45,14 @@ public class GamePresenter {
 
     public void onPaintBoardComponent(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
+        g2d.setColor(Color.LIGHT_GRAY);
+        for (int x = 0; x <= AppConfig.BOARD_WIDTH; x+= AppConfig.BLOCK_SIZE) {
+            g2d.drawLine(x, 0, x, AppConfig.BOARD_HEIGHT);
+        }
+        for (int y = 0; y <= AppConfig.BOARD_HEIGHT; y+= AppConfig.BLOCK_SIZE) {
+            g2d.drawLine(0, y, AppConfig.BOARD_WIDTH, y);
+        }
+        
         if (currentFigure != null) {
             for (Shape s : currentFigure.getUnits()) {
                 g2d.setColor(currentFigure.getColor());
